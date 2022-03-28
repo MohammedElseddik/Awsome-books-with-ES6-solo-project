@@ -2,6 +2,8 @@ export { addBtn, bookListUi };
 import { setLocalStorage, getLocalStorage } from "./Local-storage.js";
 import { Book } from "./Book.js";
 import { contactSection } from "./navigation-bar.js";
+import { DateTime } from "./luxon/src/luxon.js";
+
 
 const bookListUi = document.querySelector('.book-list-ui');
 const addBtn = document.getElementById('add-btn');
@@ -12,7 +14,7 @@ export const book = new Book();
 
 const getTime = () => {
     const dateDiv = document.querySelector(".date");
-    dateDiv.textContent = luxon.DateTime.now().toLocaleString({
+    dateDiv.textContent = DateTime.now().toLocaleString({
         year: 'numeric',
         month: 'long',
         day: 'numeric',
