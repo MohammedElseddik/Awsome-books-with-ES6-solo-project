@@ -1,9 +1,9 @@
-
+import { addBtn, bookListUi } from './index.js';
 
 const listNav = document.querySelector('.list');
 const addBookNav = document.querySelector('.add-list');
 const contactNav = document.querySelector('.contact');
-const contactSection = document.querySelector('.info-contact');
+export const contactSection = document.querySelector('.info-contact');
 
 listNav.addEventListener('click', () => {
     bookListUi.parentElement.classList.remove('hidden');

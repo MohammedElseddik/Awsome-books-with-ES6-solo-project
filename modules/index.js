@@ -1,22 +1,14 @@
+export { addBtn, bookListUi };
+import { setLocalStorage, getLocalStorage } from "./Local-storage.js";
+import { Book } from "./Book.js";
+import { contactSection } from "./navigation-bar.js";
 
-
-const addBtn = document.getElementById('add-btn');
 const bookListUi = document.querySelector('.book-list-ui');
+const addBtn = document.getElementById('add-btn');
 const bookTitle = document.querySelector('#title');
 const bookAuthor = document.querySelector('#author');
 
-const book = new Book();
-
-const setLocalStorage = () => {
-    localStorage.setItem('BookList', JSON.stringify(book.bookObject));
-}
-
-const getLocalStorage = () => {
-    if (JSON.parse(localStorage.getItem('BookList')) !== null) {
-        book.bookObject = JSON.parse(localStorage.getItem('BookList'));
-        book.renderBook();
-    }
-}
+export const book = new Book();
 
 const getTime = () => {
     const dateDiv = document.querySelector(".date");

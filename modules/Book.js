@@ -1,6 +1,7 @@
+import { bookListUi } from "./index.js";
+import { setLocalStorage, getLocalStorage } from "./Local-storage.js";
 
-
-class Book {
+export class Book {
     // Creat book boject
     constructor() {
         if (localStorage.getItem('BookList') !== null) {
@@ -40,9 +41,6 @@ class Book {
     }
 
     removeBook(event, removeBtnIndex) {
-        console.log(event);
-        console.log('helo')
-        console.log(this);
         event.target.parentElement.remove();
         this.bookObject.splice(removeBtnIndex, 1);
         this.renderBook();
