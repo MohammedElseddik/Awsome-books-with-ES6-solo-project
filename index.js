@@ -26,12 +26,6 @@ class Book {
     // Create a render function
     renderBook() {
         // Create the book list
-        if (this.bookObject.length === 0) {
-            bookListUi.classList.remove('visible');
-            return;
-        }
-        bookListUi.classList.add('visible');
-
         bookListUi.innerHTML = '';
 
         this.bookObject.forEach((bookItem, index) => {
@@ -40,8 +34,8 @@ class Book {
 
             const removeBtn = document.createElement('button');
             removeBtn.setAttribute('class', `remove-btn r-btn${index}`);
-            removeBtn.setAttribute('onclick', `remove(${index})`);
             removeBtn.textContent = 'Remove';
+            removeBtn.addEventListener('click', (e) => { this.removeBook(e, index) });
             /* eslint-disable */
             const bookListElement = document.createElement('li');
             for (const key in bookItem) {
@@ -51,11 +45,13 @@ class Book {
             listUi.appendChild(removeBtn);
             bookListUi.appendChild(listUi);
         });
-    };
+    }
 
-    removeBook(removeBtnIndex) {
-        const removeBtn = document.querySelector(`.r-btn${removeBtnIndex}`);
-        removeBtn.parentElement.remove();
+    removeBook(event, removeBtnIndex) {
+        console.log(event);
+        console.log('helo')
+        console.log(this);
+        event.target.parentElement.remove();
         this.bookObject.splice(removeBtnIndex, 1);
         this.renderBook();
         setLocalStorage();
@@ -65,35 +61,17 @@ class Book {
 
 const book = new Book();
 
-function setLocalStorage() {
+const setLocalStorage = () => {
     localStorage.setItem('BookList', JSON.stringify(book.bookObject));
 }
 
-const remove = (index) => {
-    book.removeBook(index);
-};
 
-function getLocalStorage() {
+const getLocalStorage = () => {
     if (JSON.parse(localStorage.getItem('BookList')) !== null) {
         book.bookObject = JSON.parse(localStorage.getItem('BookList'));
         book.renderBook();
     }
 }
-
-const addBookHandler = () => {
-    if (bookTitle.value.trim() === '' || bookAuthor.value.trim() === '') {
-        return;
-    }
-    book.addBook(bookTitle.value, bookAuthor.value);
-    bookTitle.value = "";
-    bookAuthor.value = "";
-    addBtn.parentElement.classList.add('hidden');
-    bookListUi.parentElement.classList.remove('hidden');
-    contactSection.classList.add('hidden');
-    book.renderBook();
-}
-
-addBtn.addEventListener('click', addBookHandler);
 
 listNav.addEventListener('click', () => {
     bookListUi.parentElement.classList.remove('hidden');
@@ -113,7 +91,7 @@ contactNav.addEventListener('click', () => {
     bookListUi.parentElement.classList.add('hidden');
 });
 
-function getTime() {
+const getTime = () => {
     const dateDiv = document.querySelector(".date");
     dateDiv.textContent = luxon.DateTime.now().toLocaleString({
         year: 'numeric',
@@ -127,4 +105,18 @@ function getTime() {
 }
 getTime();
 setInterval(getTime, 1000);
+
+addBtn.addEventListener('click', () => {
+    if (bookTitle.value.trim() === '' || bookAuthor.value.trim() === '') {
+        return;
+    }
+    book.addBook(bookTitle.value, bookAuthor.value);
+    bookTitle.value = "";
+    bookAuthor.value = "";
+    addBtn.parentElement.classList.add('hidden');
+    bookListUi.parentElement.classList.remove('hidden');
+    contactSection.classList.add('hidden');
+    book.renderBook();
+});
+
 document.addEventListener('DOMContentLoaded', getLocalStorage);
