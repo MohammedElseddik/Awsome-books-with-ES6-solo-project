@@ -1,43 +1,49 @@
-export { addBtn, bookListUi };
-import { setLocalStorage, getLocalStorage } from "./Local-storage.js";
-import { Book } from "./Book.js";
-import { contactSection } from "./navigation-bar.js";
-import { DateTime } from "./luxon/src/luxon.js";
-
+import Book from './Book.js';
+import getTime from './date.js';
 
 const bookListUi = document.querySelector('.book-list-ui');
 const addBtn = document.getElementById('add-btn');
 const bookTitle = document.querySelector('#title');
 const bookAuthor = document.querySelector('#author');
 
-export const book = new Book();
+const listNav = document.querySelector('.list');
+const addBookNav = document.querySelector('.add-list');
+const contactNav = document.querySelector('.contact');
+const contactSection = document.querySelector('.info-contact');
 
-const getTime = () => {
-    const dateDiv = document.querySelector(".date");
-    dateDiv.textContent = DateTime.now().toLocaleString({
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hours: 'false'
-    });
-}
-getTime();
-setInterval(getTime, 1000);
+const book = new Book();
 
 addBtn.addEventListener('click', () => {
-    if (bookTitle.value.trim() === '' || bookAuthor.value.trim() === '') {
-        return;
-    }
-    book.addBook(bookTitle.value, bookAuthor.value);
-    bookTitle.value = "";
-    bookAuthor.value = "";
-    addBtn.parentElement.classList.add('hidden');
-    bookListUi.parentElement.classList.remove('hidden');
-    contactSection.classList.add('hidden');
-    book.renderBook();
+  const contactSection = document.querySelector('.info-contact');
+  if (bookTitle.value.trim() === '' || bookAuthor.value.trim() === '') {
+    return;
+  }
+  book.addBook(bookTitle.value, bookAuthor.value);
+  bookTitle.value = '';
+  bookAuthor.value = '';
+  addBtn.parentElement.classList.add('hidden');
+  bookListUi.parentElement.classList.remove('hidden');
+  contactSection.classList.add('hidden');
+  book.renderBook();
 });
 
-document.addEventListener('DOMContentLoaded', getLocalStorage);
+listNav.addEventListener('click', () => {
+  bookListUi.parentElement.classList.remove('hidden');
+  addBtn.parentElement.classList.add('hidden');
+  contactSection.classList.add('hidden');
+});
+
+addBookNav.addEventListener('click', () => {
+  addBtn.parentElement.classList.remove('hidden');
+  bookListUi.parentElement.classList.add('hidden');
+  contactSection.classList.add('hidden');
+});
+
+contactNav.addEventListener('click', () => {
+  contactSection.classList.remove('hidden');
+  addBtn.parentElement.classList.add('hidden');
+  bookListUi.parentElement.classList.add('hidden');
+});
+
+getTime();
+setInterval(getTime, 1000);
