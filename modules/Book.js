@@ -3,6 +3,7 @@ export default class Book {
   constructor() {
     if (localStorage.getItem('BookList') !== null) {
       this.bookObject = JSON.parse(localStorage.getItem('BookList'));
+      this.renderBook();
     } else {
       this.bookObject = [];
     }
@@ -45,3 +46,4 @@ export default class Book {
     }
 
 }
+
